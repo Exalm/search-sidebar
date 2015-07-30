@@ -1,0 +1,46 @@
+# Content
+content	searchSidebar	chrome/content/
+
+
+# First we have to register a few XPCOM components:
+# The main controller service. It loads the modules on app start and after that it intercepts
+# search pages loading and duplicates the results in the sidebars in all windows
+component	{5ad4b3b9-5fb4-4065-ae42-7071097985cf}	components/search-panel-service.js
+contract	@searchSidebar/search-panel-service;1	{5ad4b3b9-5fb4-4065-ae42-7071097985cf}
+category	profile-after-change					SearchPanelService						@searchSidebar/search-panel-service;1
+
+# Also register about:search = chrome://searchSidebar/content/search-results.xul, just for the sake of it
+component	{3ffae56a-4618-47b0-b77d-e2458a71c1e9}				components/about-searchresults.js
+contract	@mozilla.org/network/protocol/about;1?what=search	{3ffae56a-4618-47b0-b77d-e2458a71c1e9}
+
+
+# On SeaMonkey we replace default Search sidebar panel
+override	chrome://communicator/content/search/search-panel.xul	chrome://searchSidebar/content/search-panel.xul		application=$SM_ID
+
+# On Firefox there is no Search sidebar, so we add one instead
+overlay	chrome://browser/content/browser.xul				chrome://searchSidebar/content/firefox/browser-overlay.xul	application=$FX_ID
+
+# Also load an additional script for the panel and results. There are better ways to do this, but I went with this for now
+overlay	chrome://searchSidebar/content/search-panel.xul		chrome://searchSidebar/content/firefox/utility-overlay.xul	application=$FX_ID
+overlay	chrome://searchSidebar/content/search-results.xul	chrome://searchSidebar/content/firefox/utility-overlay.xul	application=$FX_ID
+overlay	about:searchresults									chrome://searchSidebar/content/firefox/utility-overlay.xul	application=$FX_ID
+
+
+# On SeaMonkey we add some options to the built-in Search pref pane
+overlay		chrome://communicator/content/pref/pref-search.xul	chrome://searchSidebar/content/pref-overlay.xul			application=$SM_ID
+
+# On Firefox there is a separate dialog, but we want to hide it
+override	chrome://searchSidebar/content/firefox/options.xul	chrome://searchSidebar/content/firefox/options-sm.xul	application=$SM_ID
+
+
+# Skins
+skin searchSidebar classic/1.0 chrome/skin/classic/
+skin searchSidebar modern/1.0  chrome/skin/modern/
+
+
+# Locales
+locale searchSidebar en-US chrome/locale/en-US/
+
+# We have to provide some default categories, but they have to be different between SM and Fx,
+# since they have different default engines. So, we'll do this:
+override	chrome://searchSidebar/locale/default-categories.json	chrome://searchSidebar/locale/default-categories-fx.json	application=$FX_ID

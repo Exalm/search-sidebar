@@ -1,0 +1,23 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+/* Take back empty and unused accel space on an already narrow menulist popup */
+#sidebar-search-engines > menupopup > menuitem,
+#sidebar-search-categories > menupopup > menuitem {
+  -moz-padding-end: 0 !important;
+}
+
+#sidebar-search-engines .menu-accel,
+#sidebar-search-engines .menu-iconic-accel,
+#sidebar-search-categories .menu-accel,
+#sidebar-search-categories .menu-iconic-accel {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+listitem[default-engine] {
+  font-weight: bold;
+}

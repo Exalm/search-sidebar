@@ -1,0 +1,26 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!ENTITY search.button.label			"Search">
+<!ENTITY using.label					"using">
+<!ENTITY within.label					"within">
+<!ENTITY advanced.description.label		"Choose search engines, then click Search">
+
+<!ENTITY menu.engineManager.label		"Search Engines…">
+
+<!ENTITY menu.allEngines.label			"All Engines">
+<!ENTITY menu.editCategories.label		"Edit Categories…">
+<!ENTITY menu.editSearchRules.label		"Edit Search Rules…">
+
+<!ENTITY column.engines.label			"Search Engines">
+<!ENTITY column.results.label			"Search Results">
+
+<!ENTITY previous.button.label			"Previous">
+<!ENTITY next.button.label				"Next">
+<!ENTITY previous.button.tooltip		"Show previous search results">
+<!ENTITY next.button.tooltip			"Show next search results">
+
+<!ENTITY context.enableAdvanced.label	"Enable advanced search options">
+<!ENTITY context.disableAdvanced.label	"Disable advanced search options">
+<!ENTITY context.setAsDefault.label		"Set search engine as default">

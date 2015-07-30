@@ -1,0 +1,54 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+#sidebar-search-results-tree treechildren::-moz-tree-row {
+  background: none;
+  border: none;
+}
+
+#sidebar-search-results-tree treechildren::-moz-tree-row(selected) {
+  border: 1px dotted -moz-nativehyperlinktext;
+}
+
+#sidebar-search-results-tree treechildren::-moz-tree-cell-text {
+  color: -moz-nativehyperlinktext;
+}
+
+#sidebar-search-results-tree treechildren::-moz-tree-cell,
+#sidebar-search-results-tree treechildren::-moz-tree-cell-text,
+#sidebar-search-results-tree treechildren::-moz-tree-image {
+  cursor: pointer;
+}
+
+#sidebar-search-results-tree treechildren::-moz-tree-cell-text(hover) {
+  text-decoration: underline;
+}
+
+#sidebar-search-results-tree treechildren::-moz-tree-image {
+  list-style-image: url("chrome://searchSidebar/skin/result.gif");
+}
+
+#sidebar-search-engines-list listitem[default-engine] {
+  font-weight: bold;
+}
+
+/*
+#back-button {
+  list-style-image: url("chrome://global/arrows/arrow-lft.gif");
+}
+
+#back-button .button-icon {
+  -moz-appearance: button-arrow-previous;
+}
+*/
+
+.search-tooltip-title {
+  font-weight: bold;
+}
+
+.search-tooltip-description {
+  padding-top: 10px;
+}

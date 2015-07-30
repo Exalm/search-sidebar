@@ -1,0 +1,39 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+#multi-results-header {
+  background-color: inactivecaption; 
+  color: inactivecaptiontext;
+  border: 1px outset inactivecaption;
+  font-weight: bold;
+  padding-top: 3px;
+  padding-bottom: 2px;
+  -moz-padding-start: 6px;
+  -moz-padding-end: 0px;
+}
+
+#search-engine-list {
+  margin: 2px 0;
+}
+
+#search-result-details-area {
+  border-top: 2px solid;
+  -moz-border-top-colors: ThreeDShadow ThreeDDarkShadow;
+  background-color: -moz-Field;
+  color: -moz-FieldText;
+  padding: 5px;
+}
+
+#search-result-details-title {
+  font-weight: bold;
+  font-size: large;
+}
+
+#search-result-details-preview {
+  margin: 5px;
+  max-width: 140px;
+  max-height: 140px;
+}

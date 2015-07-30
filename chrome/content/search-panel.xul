@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<?xml-stylesheet href="chrome://communicator/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://searchSidebar/content/search-shared.css" type="text/css"?>
+<?xml-stylesheet href="chrome://searchSidebar/content/search-panel.css" type="text/css"?>
+<?xml-stylesheet href="chrome://searchSidebar/skin/search-panel.css" type="text/css"?>
+
+<!DOCTYPE page [
+  <!ENTITY % searchPanelDTD SYSTEM "chrome://searchSidebar/locale/search-panel.dtd">
+  %searchPanelDTD;
+  <!ENTITY % searchDTD SYSTEM "chrome://searchSidebar/locale/search.dtd">
+  %searchDTD;
+]>
+
+<page id="searchPanel"
+      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+      onload="Startup();"
+      onunload="Shutdown();"
+      elementtofocus="sidebar-search-text">
+
+  <script type="application/javascript" src="chrome://global/content/contentAreaUtils.js"/>
+  <script type="application/javascript" src="chrome://global/content/globalOverlay.js"/>
+  <script type="application/javascript" src="chrome://communicator/content/utilityOverlay.js"/>
+  <script type="application/javascript" src="chrome://searchSidebar/content/search-panel.js"/>
+  <script type="application/javascript" src="chrome://searchSidebar/content/utils.js"/>
+
+  <stringbundle id="searchBundle"
+                src="chrome://searchSidebar/locale/search-panel.properties"/>
+
+  <popupset>
+    <tooltip id="sidebar-search-result-tooltip"
+             onpopupshowing="onResultTooltipShowing(event)">
+      <vbox flex="1"
+            pack="start"
+            align="start">
+        <label id="search-tooltip-title"
+               class="search-tooltip-title plain"
+               flex="1" />
+        <label id="search-tooltip-link"
+               class="search-tooltip-link plain"
+               flex="1"
+               crop="end" />
+        <description id="search-tooltip-description"
+                     class="search-tooltip-description plain"
+                     flex="1" />
+      </vbox>
+    </tooltip>
+    <menupopup id="sidebar-search-result-context"
+               onpopupshowing="onResultContextMenuShowing(event);"
+               oncommand="onResultContextMenuCommand(event);">
+      <menuitem id="search-context-bookmarkQuery"
+                label="&context.bookmarkQuery.label;" />
+      <menuseparator id="search-context-excludeUrl-sep" />
+      <menuitem id="search-context-excludeUrl"
+                label="&context.excludeUrl.label;" />
+      <menuitem id="search-context-excludeDomain"
+                label="&context.excludeDomain.label;" />
+      <menuseparator id="search-context-clearFilters-sep" />
+      <menuitem id="search-context-clearFilters"
+                label="&context.clearFilters.label;" />
+      <menuseparator />
+      <menuitem id="search-context-enableAdvanced"
+                label="&context.enableAdvanced.label;" />
+      <menuitem id="search-context-disableAdvanced"
+                label="&context.disableAdvanced.label;" />
+    </menupopup>
+    <menupopup id="sidebar-search-engine-context"
+               onpopupshowing="onEngineContextMenuShowing(event);"
+               oncommand="onEngineContextMenuCommand(event);">
+      <menuitem id="search-engine-context-setAsDefault"
+                label="&context.setAsDefault.label;" />
+      <menuseparator id="search-engine-context-setAsDefault-sep" />
+      <menuitem id="search-engine-context-enableAdvanced"
+                label="&context.enableAdvanced.label;" />
+      <menuitem id="search-engine-context-disableAdvanced"
+                label="&context.disableAdvanced.label;" />
+    </menupopup>
+  </popupset>
+
+  <vbox class="box-padded outset-top-bottom">
+    <hbox align="center">
+      <textbox id="sidebar-search-text" flex="1"
+               class="search-textbox padded"
+               ontextentered="doSearch();"
+               oninput="onTextboxInput();"
+               type="autocomplete"
+               autocompletesearch="search-autocomplete"
+               autocompletesearchparam="searchbar-history"
+               timeout="250"
+               maxrows="10"
+               completeselectedindex="true"
+               tabscrolling="true" />
+      <button id="sidebar-search-button" label="&search.button.label;"
+              oncommand="doSearch();"/>
+    </hbox>
+
+    <hbox id="engines-menulist-container" align="center">
+      <label value="&using.label;"/>
+      <menulist id="sidebar-search-engines"
+                flex="1"
+                class="engine-menulist"
+                oncommand="SelectEngine();">
+        <menupopup>
+          <menuseparator id="sidebar-search-engines-separator" />
+          <menuitem class="sidebar-search-menuitem-special"
+                    id="sidebar-search-menuitem-engines"
+                    label="&menu.engineManager.label;" />
+          <menuitem class="sidebar-search-menuitem-special"
+                    id="sidebar-search-menuitem-rules"
+                    label="&menu.editSearchRules.label;" />
+        </menupopup>
+      </menulist>
+    </hbox>
+    <vbox id="categories-menulist-container">
+      <hbox align="center">
+        <label value="&within.label;"/>
+        <menulist id="sidebar-search-categories"
+                  flex="1"
+                  oncommand="SelectCategory();">
+          <menupopup>
+            <menuitem label="&menu.allEngines.label;"
+                      value="all-engines" />
+            <menuseparator />
+            <menuitem class="sidebar-search-menuitem-special"
+                      id="sidebar-search-menuitem-engines"
+                      label="&menu.engineManager.label;" />
+            <menuitem class="sidebar-search-menuitem-special"
+                      id="sidebar-search-menuitem-rules"
+                      label="&menu.editSearchRules.label;" />
+            <menuitem class="sidebar-search-menuitem-special"
+                      id="sidebar-search-menuitem-categories"
+                      label="&menu.editCategories.label;" />
+            <menuseparator id="sidebar-search-categories-separator" />
+          </menupopup>
+        </menulist>
+      </hbox>
+      <description id="advanced-mode-description">
+        &advanced.description.label;
+      </description>
+    </vbox>
+
+  </vbox>
+
+  <deck id="sidebar-search-tree-deck" flex="1">
+    <vbox>
+      <tree id="sidebar-search-results-tree"
+            class="result-tree plain"
+            flex="1"
+            hidecolumnpicker="true"
+            seltype="single"
+            sortResource="title"
+            sortDirection="natural"
+            persist="sortResource sortDirection"
+            onclick="onResultTreeClick(event);">
+        <treecols>
+          <treecol id="title"
+                   primary="true"
+                   label="&column.results.label;"
+                   flex="1"
+                   onclick="sortTree(this)" />
+        </treecols>
+        <treechildren tooltip="sidebar-search-result-tooltip"
+                      context="sidebar-search-result-context"
+                      onmousemove="onResultTreeMouseMove(event);"
+                      onmouseout="onResultTreeMouseMove();"
+                      ondragstart="onResultDrag(gResultTree, gResultView, event);" />
+      </tree>
+      <hbox>
+        <button id="search-prev-button"
+                label="&previous.button.label;"
+                tooltiptext="&previous.button.tooltip;"
+                disabled="true"
+                oncommand="openUILink(this.href, event);" />
+        <spacer flex="1"/>
+        <button id="search-next-button"
+                label="&next.button.label;"
+                tooltiptext="&next.button.tooltip;"
+                disabled="true"
+                oncommand="openUILink(this.href, event);" />
+      </hbox>
+    </vbox>
+    <listbox id="sidebar-search-engines-list"
+             class="plain engine-list"
+             flex="1"
+             context="sidebar-search-engine-context"
+             oncommand="onEngineChecked(event);">
+      <listhead>
+        <listheader primary="true"
+                    label="&column.engines.label;"
+                    flex="1"/>
+      </listhead>
+    </listbox>
+  </deck>
+</page>

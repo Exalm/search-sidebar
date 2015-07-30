@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://gnomerunner-options/skin/options.css" type="text/css"?>
+
+<!DOCTYPE dialog SYSTEM "chrome://searchSidebar/locale/firefox-options.dtd">
+
+<!-- This options dialog is only used on Firefox. On SeaMonkey, we integrate
+     our settings into the system dialog instead -->
+<dialog title="&window.title.label;"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        buttons="accept">
+  <prefpane>
+    <preferences>
+      <preference id="extensions.searchSidebar.opensidebarsearchpanel"
+                  name="extensions.searchSidebar.opensidebarsearchpanel"
+                  type="bool"/>
+      <preference id="extensions.searchSidebar.advanced_mode"
+                  name="extensions.searchSidebar.advanced_mode"
+                  type="bool"/>
+    </preferences>
+
+    <groupbox>
+      <caption label="&searchResults.label;"/>
+      <checkbox id="openSidebarPanel"
+                label="&openSidebar.label;"
+                accesskey="&openSidebar.accesskey;"
+                preference="extensions.searchSidebar.opensidebarsearchpanel"/>
+    </groupbox>
+
+    <groupbox>
+      <caption label="&sidebarSearchTabPref.label;"/>
+      <radiogroup id="sidebarSearchMode"
+                  preference="extensions.searchSidebar.advanced_mode">
+        <radio value="false"
+               label="&searchModeBasic.label;"
+               accesskey="&searchModeBasic.accesskey;"/>
+        <radio value="true"
+               label="&searchModeAdvanced.label;"
+               accesskey="&searchModeAdvanced.accesskey;"/>
+      </radiogroup>
+    </groupbox>
+  </prefpane>
+</dialog>

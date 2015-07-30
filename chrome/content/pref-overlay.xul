@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!DOCTYPE overlay SYSTEM "chrome://searchSidebar/locale/pref-overlay.dtd" >
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <prefpane id="search_pane">
+    <preferences id="search_preferences">
+      <preference id="extensions.searchSidebar.advanced_mode"
+                  name="extensions.searchSidebar.advanced_mode"
+                  type="bool"/>
+    </preferences>
+
+    <groupbox>
+      <caption label="&sidebarSearchTabPref.label;"/>
+      <radiogroup id="sidebarSearchMode"
+                  preference="extensions.searchSidebar.advanced_mode">
+        <radio value="false"
+               label="&searchModeBasic.label;"
+               accesskey="&searchModeBasic.accesskey;"/>
+        <radio value="true"
+               label="&searchModeAdvanced.label;"
+               accesskey="&searchModeAdvanced.accesskey;"/>
+      </radiogroup>
+    </groupbox>
+  </prefpane>
+
+  <!-- This feature is very ambiguous now, since it may refer both
+       to the page containing results or to the results themselves.
+       The latter can be controlled in-place by using middle-click and
+       dragging them to the tab bar, so I decided to hide it completely
+       until I figure out how to properly integrate it -->
+  <checkbox id="openSearchTab" removeelement="true" />
+</overlay>

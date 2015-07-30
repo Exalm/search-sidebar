@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<?xml-stylesheet href="chrome://communicator/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://searchSidebar/content/search-shared.css" type="text/css"?>
+<?xml-stylesheet href="chrome://searchSidebar/content/search-results.css" type="text/css"?>
+<?xml-stylesheet href="chrome://searchSidebar/skin/search-results.css" type="text/css"?>
+
+<!DOCTYPE page [
+  <!ENTITY % searchResultsDTD SYSTEM "chrome://searchSidebar/locale/search-results.dtd">
+  %searchResultsDTD;
+  <!ENTITY % searchDTD SYSTEM "chrome://searchSidebar/locale/search.dtd">
+  %searchDTD;
+]>
+
+<page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+      xmlns:xhtml="http://www.w3.org/1999/xhtml"
+      onload="init();"
+      onunload="shutdown();"
+      context="disallowcontext"
+      title="&internetresults.title;">
+
+  <xhtml:link rel="shortcut icon"
+              href="chrome://searchSidebar/skin/favicon.png"/>
+
+  <script type="application/javascript" src="chrome://communicator/content/utilityOverlay.js"/>
+  <script type="application/javascript" src="chrome://global/content/contentAreaUtils.js"/>
+  <script type="application/javascript" src="chrome://searchSidebar/content/search-results.js"/>
+  <script type="application/javascript" src="chrome://searchSidebar/content/utils.js"/>
+
+  <stringbundle id="searchBundle"
+                src="chrome://searchSidebar/locale/search-results.properties"/>
+
+  <popupset>
+    <menupopup id="disallowcontext" onpopupshowing="return false;"/>
+    <menupopup id="search-result-context"
+               onpopupshowing="onContextMenuShowing(event);"
+               oncommand="onContextMenuCommand(event);">
+      <menuitem id="search-context-bookmarkQuery"
+                label="&context.bookmarkQuery.label;" />
+      <menuseparator id="search-context-excludeUrl-sep" />
+      <menuitem id="search-context-excludeUrl"
+                label="&context.excludeUrl.label;" />
+      <menuitem id="search-context-excludeDomain"
+                label="&context.excludeDomain.label;" />
+      <menuseparator id="search-context-clearFilters-sep" />
+      <menuitem id="search-context-clearFilters"
+                label="&context.clearFilters.label;" />
+    </menupopup>
+  </popupset>
+
+  <hbox id="multi-results-header">
+    <label value="&results.header.label;"/>
+  </hbox>
+
+  <hbox align="center" style="min-width: 1px;">
+    <label value="&viewbyprovider.label;"/>
+    <menulist id="search-engine-list" oncommand="switchTab();">
+      <menupopup>
+        <menuitem id="all-engines" label="&allresults.title.label;" value="0" />
+        <menuseparator />
+      </menupopup>
+    </menulist>
+  </hbox>
+
+  <deck flex="1" id="search-deck">
+    <vbox>
+      <tree id="search-tree"
+            enableColumnDrag="true"
+            flex="2"
+            class="result-tree plain"
+            seltype="single"
+            sortResource="ranking"
+            sortDirection="ascending"
+            onselect="onResultSelected(event);"
+            onclick="onTreeClicked(event, 1);"
+            ondblclick="onTreeClicked(event, 2);"
+            onkeydown="onTreeKeyDown(event);">
+        <treecols>
+          <treecol id="title"
+                   label="&column.name.label;"
+                   primary="true"
+                   flex="1"
+                   onclick="sortTree(this)" />
+          <splitter class="tree-splitter"/>
+          <treecol id="ranking"
+                   label="&column.ranking.label;"
+                   flex="1"
+                   onclick="sortTree(this)" />
+          <splitter class="tree-splitter"/>
+          <treecol id="relevance"
+                   label="&column.relevance.label;"
+                   flex="1"
+                   hidden="true"
+                   ignoreincolumnpicker="true"
+                   onclick="sortTree(this)" />
+          <splitter class="tree-splitter"/>
+          <treecol id="price"
+                   label="&column.price.label;"
+                   flex="1"
+                   hidden="true"
+                   ignoreincolumnpicker="true"
+                   onclick="sortTree(this)" />
+          <splitter class="tree-splitter"/>
+          <treecol id="availability"
+                   label="&column.availability.label;"
+                   flex="1"
+                   hidden="true"
+                   ignoreincolumnpicker="true"
+                   onclick="sortTree(this)" />
+          <splitter class="tree-splitter"/>
+          <treecol id="date"
+                   label="&column.date.label;"
+                   flex="1"
+                   hidden="true"
+                   ignoreincolumnpicker="true"
+                   disabled="true"
+                   onclick="sortTree(this)" />
+          <splitter class="tree-splitter"/>
+          <treecol id="site"
+                   label="&column.site.label;"
+                   flex="1"
+                   onclick="sortTree(this)" />
+          <splitter class="tree-splitter"/>
+          <treecol id="engine"
+                   label="&column.engine.label;"
+                   flex="1"
+                   onclick="sortTree(this)" />
+        </treecols>
+        <treechildren context="search-result-context"
+                      ondragstart="onResultDrag(gTree, gView, event);" />
+      </tree>
+
+      <splitter collapse="after">
+        <grippy />
+      </splitter>
+
+      <vbox id="search-result-details-area" flex="1">
+        <deck id="search-result-details-deck" flex="1" selectedIndex="1">
+          <vbox>
+            <label id="search-result-details-title" />
+            <label id="search-result-details-link"
+                   class="text-link"
+                   crop="end"
+                   onclick="onLinkClicked(event);"
+                   ondragstart="onLinkDragged(event);" />
+            <box>
+              <image id="search-result-details-preview"/>
+            </box>
+            <label id="search-result-details-description" />
+          </vbox>
+          <box align="center" pack="center">
+            <label id="search-result-details-empty" value="&noresultselected.label;" />
+          </box>
+        </deck>
+      </vbox>
+    </vbox>
+
+    <!-- Browser tab template -->
+    <browser id="search-browser-template"
+             class="search-browser"
+             flex="1"
+             type="content"
+             disablehistory="true"
+             autofind="false" />
+  </deck>
+</page>

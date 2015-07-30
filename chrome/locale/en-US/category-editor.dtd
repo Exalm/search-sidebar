@@ -1,0 +1,23 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!ENTITY window.title.label				"Edit Categories">
+<!ENTITY allengines.label				"All Engines">
+<!ENTITY engine.column.label			"Engines for this Category">
+<!ENTITY category.label					"Category">
+<!ENTITY category.accesskey				"c">
+<!ENTITY done.label						"Done">
+
+<!ENTITY add.label						"Add">
+<!ENTITY add.accesskey					"a">
+<!ENTITY remove.label					"Remove">
+<!ENTITY remove.accesskey				"r">
+
+<!ENTITY new.category.label				"New…">
+<!ENTITY new.category.accesskey			"n">
+<!ENTITY rename.category.label			"Rename…">
+<!ENTITY rename.category.accesskey		"e">
+
+<!ENTITY remove.category.label			"Delete">
+<!ENTITY remove.category.accesskey		"d">

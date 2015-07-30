@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<?xml-stylesheet href="chrome://communicator/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://searchSidebar/content/search-shared.css" type="text/css"?>
+<?xml-stylesheet href="chrome://searchSidebar/content/search-rule-editor.css" type="text/css"?>
+<?xml-stylesheet href="chrome://searchSidebar/skin/search-rule-editor.css" type="text/css"?>
+
+<!DOCTYPE dialog SYSTEM "chrome://searchSidebar/locale/search-rule-editor.dtd">
+
+<dialog id="search-rule-editor"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        buttons="accept"
+        buttonlabelaccept="Close"
+        onload="init();"
+        onunload="saveAndClose();"
+        width="600" height="400"
+        persist="width height"
+        title="&window.title.label;"
+        windowtype="searchSidebar:search-rule-editor">
+
+  <script type="application/javascript" src="chrome://searchSidebar/content/search-rule-editor.js"/>
+
+  <hbox flex="1">
+
+    <listbox id="engineList" class="engine-list" onselect="selectEngine()">
+      <listhead>
+        <listheader label="&column.engines.label;" flex="1" />
+      </listhead>
+    </listbox>
+
+    <vbox flex="1">
+
+      <dialogheader id="header" label="&window.title.label;" />
+
+      <checkbox id="enable-results" label="&checkbox.enable.label;" oncommand="update();" />
+
+      <hbox align="center">
+        <label id="url-filter-label" value="&textbox.urlFilter.label;" />
+        <textbox id="url-filter-textbox" flex="1" onchange="update();" />
+      </hbox>
+
+      <groupbox>
+        <caption label="&caption.results.label;" />
+        <grid>
+          <columns>
+            <column />
+            <column flex="1" />
+            <column />
+          </columns>
+          <rows>
+            <row class="setting-selector" id="containerSetting" label="&selector.container.label;" />
+            <row class="setting-selector" id="titleSetting" label="&selector.title.label;" />
+            <row class="setting-selector" id="linkSetting" label="&selector.link.label;" />
+            <row class="setting-selector" id="descriptionSetting" label="&selector.description.label;" />
+            <row class="setting-selector" id="previewSetting" label="&selector.preview.label;" />
+          </rows>
+        </grid>
+      </groupbox>
+
+      <groupbox>
+        <caption label="&caption.navigation.label;" />
+        <grid>
+          <columns>
+            <column />
+            <column flex="1" />
+            <column />
+          </columns>
+          <rows>
+            <row class="setting-selector" id="prevPageSetting" label="&selector.prevPage.label;" />
+            <row class="setting-selector" id="nextPageSetting" label="&selector.nextPage.label;" />
+          </rows>
+        </grid>
+      </groupbox>
+    </vbox>
+  </hbox>
+</dialog>

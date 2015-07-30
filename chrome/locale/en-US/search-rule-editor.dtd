@@ -1,0 +1,21 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!ENTITY window.title.label				"Edit Search Rules">
+
+<!ENTITY column.engines.label			"Search Engines">
+
+<!ENTITY checkbox.enable.label			"Enable search results">
+<!ENTITY textbox.urlFilter.label		"URL filter">
+
+<!ENTITY caption.results.label			"Results">
+<!ENTITY selector.container.label		"Container">
+<!ENTITY selector.title.label			"Title">
+<!ENTITY selector.link.label			"Link">
+<!ENTITY selector.description.label		"Description">
+<!ENTITY selector.preview.label			"Preview">
+
+<!ENTITY caption.navigation.label		"Navigation">
+<!ENTITY selector.prevPage.label		"Previous page">
+<!ENTITY selector.nextPage.label		"Next page">

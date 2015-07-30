@@ -1,0 +1,19 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!ENTITY internetresults.title			"Search Results">
+<!ENTITY results.header.label			"Search Results">
+<!ENTITY viewbyprovider.label			"View by search engine:">
+<!ENTITY allresults.title.label			"All results combined">
+
+<!ENTITY column.name.label				"Name">
+<!ENTITY column.ranking.label			"Page Ranking">
+<!ENTITY column.relevance.label			"Relevance">
+<!ENTITY column.price.label				"Price">
+<!ENTITY column.availability.label		"Availability">
+<!ENTITY column.date.label				"Date">
+<!ENTITY column.site.label				"Website">
+<!ENTITY column.engine.label			"Search Engine">
+
+<!ENTITY noresultselected.label			"No result selected">

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!DOCTYPE overlay SYSTEM "chrome://searchSidebar/locale/firefox-overlay.dtd" >
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <menupopup id="viewSidebarMenu">
+    <menuitem key="key_openSearchSidebar" observes="viewSearchSidebar" />
+  </menupopup>
+
+  <keyset id="mainKeyset">
+    <key id="key_openSearchSidebar" command="viewSearchSidebar"
+         key="&sidebar.search.commandkey;"
+         modifiers="&sidebar.search.modifierskey;" />
+  </keyset>
+
+  <broadcasterset id="mainBroadcasterSet">
+    <broadcaster id="viewSearchSidebar"
+                 label="&sidebar.search.label;"
+                 autoCheck="false"
+                 type="checkbox"
+                 group="sidebar"
+                 sidebarurl="chrome://searchSidebar/content/search-panel.xul"
+                 sidebartitle="&sidebar.search.label;"
+                 oncommand="toggleSidebar('viewSearchSidebar');" />
+  </broadcasterset>
+</overlay>

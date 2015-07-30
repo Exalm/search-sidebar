@@ -1,0 +1,38 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+/* ===== internetresults.css ============================================
+  == Styles specific to the Internet Search results pane.
+  ======================================================================= */
+
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+#multi-results-header {
+  border-bottom: 1px outset #587B98;
+  padding: 5px 6px;
+  background-color: #587B98;
+  color: #ffffff;; 
+  font-weight: bold;
+}
+
+#search-engine-list {
+  margin: 2px 3px;
+}
+
+#search-result-details-area {
+  background-color: white;
+  color: black;
+  padding: 5px;
+}
+
+#search-result-details-title {
+  font-weight: bold;
+  font-size: large;
+}
+
+#search-result-details-preview {
+  margin: 5px;
+  max-width: 140px;
+  max-height: 140px;
+}
