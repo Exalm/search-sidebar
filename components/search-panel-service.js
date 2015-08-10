@@ -102,6 +102,9 @@ function onWindowUnload(aWindow) {
 }
 
 function onPageStartLoading(aBrowser, aUrl) {
+  if (PrivateBrowsingUtils.isWindowPrivate(aBrowser.ownerGlobal))
+    return;
+
   let engine = SearchParser.findEngineForUrl(aUrl);
   if (!engine)
     return;
