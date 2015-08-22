@@ -8,7 +8,7 @@
         <em:bootstrap>false</em:bootstrap>
         <em:unpack>false</em:unpack>
         <em:strictCompatibility>false</em:strictCompatibility>
-        <em:optionsURL>chrome://searchSidebar/content/firefox/options.xul</em:optionsURL>
+        <em:optionsURL>chrome://searchSidebar/content/options.xul</em:optionsURL>
         <em:name>$EXT_NAME</em:name>
         <em:description>$EXT_DESC</em:description>
         <em:creator>Exalm</em:creator>
@@ -17,13 +17,6 @@
                 <em:id>$SM_ID</em:id>
                 <em:minVersion>$SM_MIN_VERSION</em:minVersion>
                 <em:maxVersion>$SM_MAX_VERSION</em:maxVersion>
-            </Description>
-        </em:targetApplication>
-        <em:targetApplication>
-            <Description>
-                <em:id>$FX_ID</em:id>
-                <em:minVersion>$FX_MIN_VERSION</em:minVersion>
-                <em:maxVersion>$FX_MAX_VERSION</em:maxVersion>
             </Description>
         </em:targetApplication>
     </Description>

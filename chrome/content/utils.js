@@ -16,20 +16,7 @@ function getResultAt(aTree, aView, aEvent) {
 function addBookmark(aUrl, aTitle) {
   let uri = Services.io.newURI(aUrl, null, null);
 
-  // SeaMonkey
-  if (PlacesUIUtils.showMinimalAddBookmarkUI) {
-    PlacesUIUtils.showMinimalAddBookmarkUI(uri, aTitle);
-    return;
-  }
-
-  // Firefox
-  PlacesUIUtils.showBookmarkDialog({
-    action: "add",
-    type: "bookmark",
-    hiddenRows: [ "description", "location", "keyword", "loadInSidebar" ],
-    uri: uri,
-    title: aTitle
-  }, window.top);
+  PlacesUIUtils.showMinimalAddBookmarkUI(uri, aTitle);
 }
 
 function onResultDrag(aTree, aView, aEvent) {

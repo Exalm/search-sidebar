@@ -21,7 +21,7 @@ while read LINE; do
     eval "$LINE1=\"$LINE2\""
 done < "../config.txt"
 
-zip ../$NAME-$VERSION-sm+fx.xpi * -rq
+zip ../$NAME-$VERSION-sm.xpi * -rq
 
 cd ..
 rm -rf temp

@@ -7,7 +7,3 @@ pref("extensions.searchSidebar.advanced_mode", true);
 
 // Skips "Change default engine?" dialog
 pref("extensions.searchSidebar.set_default.dont_ask_again", false);
-
-// This pref only has effect on Firefox
-// On SeaMonkey, browser.search.opensidebarsearchpanel is used instead
-pref("extensions.searchSidebar.opensidebarsearchpanel", false);

@@ -1,4 +1,4 @@
-[This SeaMonkey and Firefox extension restores old-style Search sidebar tab,
+[This SeaMonkey extension restores old-style Search sidebar tab,
 complete with search results and multi-engine search.
 
 # Screenshot:
@@ -6,7 +6,6 @@ complete with search results and multi-engine search.
 
 # Features:
  * Replaces default bare-bones Search tab on SeaMonkey;
- * Adds Search sidebar on Firefox;
  * When a search is performed, search results will be gathered and displayed
    in the sidebar;
  * Basic mode provides a search field, search engine selection dropdown and

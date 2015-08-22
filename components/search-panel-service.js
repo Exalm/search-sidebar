@@ -56,6 +56,9 @@ SearchPanelService.prototype.getCurrentResults = function() {
 };
 
 SearchPanelService.prototype.setCurrentResults = function(aResults) {
+  if (!aResults || !aResults.results || aResults.results.length == 0)
+    return;
+
   gResults = aResults;
   Services.obs.notifyObservers(null, SEARCH_TOPIC, "finished");
 };
@@ -72,8 +75,10 @@ var gWindowObserver = {
   observe: function(aSubject, aTopic, aData) {
     let win = aSubject.QueryInterface(Ci.nsIDOMWindow);
 
-    if (aTopic == "domwindowclosed")
+    if (aTopic == "domwindowclosed") {
       onWindowUnload(win);
+      return;
+    }
 
     win.addEventListener("load", () => {
       win.removeEventListener("load", arguments.callee);
@@ -115,28 +120,10 @@ function onPageStartLoading(aBrowser, aUrl) {
   // But first let's notify the panels, so that advanced mode panels can switch to results
   Services.obs.notifyObservers(null, SEARCH_TOPIC, "started");
 
-  let value = false;
-  try {
-    // First try to use the built-in pref for maximum integration
-    value = Services.prefs.getBoolPref("browser.search.opensidebarsearchpanel");
-  } catch (e) {
-    // Perhaps this is Firefox, use our own pref instead
-    value = Services.prefs.getBoolPref("extensions.searchSidebar.opensidebarsearchpanel");
-  }
+  if (!Services.prefs.getBoolPref("browser.search.opensidebarsearchpanel"))
+    return
 
-  if (!value)
-    return;
-
-  let win = aBrowser.ownerGlobal;
-  if (win.BrowserSearch.revealSidebar)
-    // This is SeaMonkey. Proceed with built-in function that does just that
-    win.BrowserSearch.revealSidebar();
-  else if (win.SidebarUI)
-    // And this is Firefox. Open sidebar using generic API
-    win.SidebarUI.show("viewSearchSidebar");
-  else
-    // An old Firefox version. Use deprecated API
-    win.toggleSidebar("viewSearchSidebar", true);
+  aBrowser.ownerGlobal.BrowserSearch.revealSidebar();
 }
 
 function onPageLoad(aBrowser) {
