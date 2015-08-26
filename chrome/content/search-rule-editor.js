@@ -9,7 +9,7 @@ Cu.import("chrome://searchSidebar/content/modules/SearchRules.jsm");
 
 var currentData, currentEngine;
 
-var engineList;
+var engineTree, gEngines;
 var gEnableResults;
 var urlFilterLabel, urlFilterTextbox;
 
@@ -18,7 +18,7 @@ var containerSetting, titleSetting, linkSetting, descriptionSetting, previewSett
 var prevPageSetting, nextPageSetting;
 
 function init() {
-  engineList = document.getElementById("engineList");
+  engineTree = document.getElementById("engine-tree");
   gEnableResults = document.getElementById("enable-results");
 
   urlFilterLabel = document.getElementById("url-filter-label");
@@ -34,23 +34,28 @@ function init() {
   nextPageSetting = document.getElementById("nextPageSetting");
 
   // Load engine list
-  var engines = Services.search.getVisibleEngines();
-  engines.forEach(engine => {
-    let listitem = engineList.appendItem(engine.name, engine.name);
-    listitem.setAttribute("class", "listitem-iconic");
-    if (engine.iconURI)
-      listitem.setAttribute("image", engine.iconURI.spec);
-    listitem.engine = engine;
+  gEngines = Services.search.getVisibleEngines();
+  gEngines.forEach(engine => {
+    let item = document.createElement("treeitem");
+    let row = document.createElement("treerow");
+    let cell = document.createElement("treecell");
+    cell.setAttribute("label", engine.name);
+    cell.setAttribute("src", engine.iconURI.spec);
+    cell.setAttribute("properties", "favicon");
+    row.appendChild(cell);
+    item.appendChild(row);
+
+    document.getElementById("engine-treechildren").appendChild(item);
   });
 
   // Select some engine by default
-  engineList.selectedIndex = 0;
+  engineTree.currentIndex = 0;
 }
 
 function selectEngine() {
   update();
 
-  currentEngine = engineList.selectedItem.engine;
+  currentEngine = gEngines[engineTree.currentIndex];
   currentData = SearchRules.getRulesForEngine(currentEngine);
 
   document.getElementById("header").setAttribute("title", currentEngine.name);

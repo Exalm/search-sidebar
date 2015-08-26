@@ -10,6 +10,7 @@
 }
 
 .engine-list .listcell-icon,
+.engine-tree treechildren::-moz-tree-image(favicon),
 .result-tree treechildren::-moz-tree-image(favicon) {
   height: 16px;
   width: 16px;

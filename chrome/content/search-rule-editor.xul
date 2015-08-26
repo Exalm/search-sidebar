@@ -25,11 +25,16 @@
 
   <hbox flex="1">
 
-    <listbox id="engineList" class="engine-list" onselect="selectEngine()">
-      <listhead>
-        <listheader label="&column.engines.label;" flex="1" />
-      </listhead>
-    </listbox>
+    <tree id="engine-tree"
+          class="engine-tree"
+          onselect="selectEngine()"
+          hidecolumnpicker="true"
+          width="150">
+      <treecols>
+        <treecol label="&column.engines.label;" flex="1" />
+      </treecols>
+      <treechildren id="engine-treechildren" />
+    </tree>
 
     <vbox flex="1">
 
