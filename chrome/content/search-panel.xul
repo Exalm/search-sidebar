@@ -102,9 +102,11 @@
       <menulist id="sidebar-search-engines"
                 flex="1"
                 class="engine-menulist"
+                onpopupshowing="onMenulistOpened(event);"
                 oncommand="SelectEngine();">
         <menupopup>
-          <menuseparator id="sidebar-search-engines-separator" />
+          <menuseparator class="engine-suggestions-sep" />
+          <menuseparator />
           <menuitem class="sidebar-search-menuitem-special"
                     id="sidebar-search-menuitem-engines"
                     label="&menu.engineManager.label;" />
@@ -119,6 +121,7 @@
         <label value="&within.label;"/>
         <menulist id="sidebar-search-categories"
                   flex="1"
+                  onpopupshowing="onMenulistOpened(event);"
                   oncommand="SelectCategory();">
           <menupopup>
             <menuitem label="&menu.allEngines.label;"
@@ -133,7 +136,8 @@
             <menuitem class="sidebar-search-menuitem-special"
                       id="sidebar-search-menuitem-categories"
                       label="&menu.editCategories.label;" />
-            <menuseparator id="sidebar-search-categories-separator" />
+            <menuseparator class="categories-sep" />
+            <menuseparator class="engine-suggestions-sep" />
           </menupopup>
         </menulist>
       </hbox>

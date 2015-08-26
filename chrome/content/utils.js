@@ -6,6 +6,20 @@ Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource:///modules/PlacesUIUtils.jsm");
 
+function removeItemsFromPopup(aPopup, aClass) {
+  let items = aPopup.childNodes;
+  for (let i = items.length - 1; i >= 0; i--)
+    if (items[i].classList.contains(aClass))
+      items[i].remove();
+}
+
+function insertAfter(aParent, aNewItem, aRefItem) {
+  if (aRefItem == aParent.lastItem)
+    return aParent.appendChild(aNewItem);
+
+  return aParent.insertBefore(aNewItem, aRefItem.nextSibling);
+}
+
 function getResultAt(aTree, aView, aEvent) {
   if (!aEvent)
     return;

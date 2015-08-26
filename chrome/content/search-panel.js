@@ -96,15 +96,13 @@ function LoadEngineList() {
   if (gAdvancedMode)
     return;
 
-  // Make sure the popup is empty.
-  while (engineMenulist.getItemAtIndex(0).id != "sidebar-search-engines-separator")
-    engineMenulist.removeItemAt(0);
+  removeItemsFromPopup(engineMenulist.menupopup, "engine-menuitem");
 
   var engines = Services.search.getVisibleEngines();
   engines.forEach((engine, i) => {
     let name = engine.name;
     let menuitem = engineMenulist.insertItemAt(i, name, name);
-    menuitem.setAttribute("class", "menuitem-iconic");
+    menuitem.setAttribute("class", "menuitem-iconic engine-menuitem");
     if (engine.iconURI)
       menuitem.setAttribute("image", engine.iconURI.spec);
     menuitem.engine = engine;
@@ -112,28 +110,67 @@ function LoadEngineList() {
   engineMenulist.value = Services.search.currentEngine.name;
 }
 
+function onMenulistOpened(aEvent) {
+  let sep = aEvent.target.getElementsByClassName("engine-suggestions-sep")[0];
+  sep.hidden = true;
+
+  if (!top.gBrowser)
+    return;
+
+  let popup = aEvent.target;
+
+  removeItemsFromPopup(popup, "add-engine");
+
+  let engines = top.gBrowser.mCurrentBrowser.engines;
+
+  if (!engines)
+    engines = [];
+
+  sep.hidden = (engines.length == 0);
+
+  for (let i = engines.length - 1; i >= 0; i--) {
+    let engine = engines[i];
+    let title = gSearchBundle.stringBundle.formatStringFromName("addEngineLabel", [engine.title], 1);
+
+    let menuitem = document.createElement("menuitem");
+    menuitem.setAttribute("label", title);
+    menuitem.setAttribute("value", engine.uri);
+    menuitem.setAttribute("class", "menuitem-iconic add-engine sidebar-search-menuitem-special");
+    menuitem.setAttribute("image", engine.icon);
+    menuitem.setAttribute("tooltiptext", engine.uri);
+    menuitem.engine = engine;
+
+    insertAfter(popup, menuitem, sep);
+  }
+}
+
 function loadCategories() {
   if (!gAdvancedMode)
     return;
 
-  // Make sure the popup is empty.
-  while (categoryMenulist.getItemAtIndex(categoryMenulist.itemCount - 1).id != "sidebar-search-categories-separator")
-    categoryMenulist.removeItemAt(categoryMenulist.itemCount - 1);
+  removeItemsFromPopup(categoryMenulist.menupopup, "category-menuitem");
+  let sep = categoryMenulist.menupopup.getElementsByClassName("categories-sep")[0];
 
   let categories = SearchCategories.getCategories();
-  for (let id in categories) {
+  let keys = Object.keys(categories).reverse().forEach(id => {
+    dump(id);
     let category = categories[id];
-    let name = category.name;
-    let menuitem = categoryMenulist.appendItem(name, id);
+
+    let menuitem = document.createElement("menuitem");
+    menuitem.setAttribute("label", category.name);
+    menuitem.setAttribute("value", id);
+    menuitem.setAttribute("class", "category-menuitem");
     menuitem.category = category;
-  }
+
+    insertAfter(categoryMenulist.menupopup, menuitem, sep);
+  });
 
   categoryMenulist.value = categories[gCurrentCategory] ? gCurrentCategory : "all-engines";
   SelectCategory();
 }
 
 function SelectEngine() {
-  if (engineMenulist.selectedItem.getAttribute("class") == "sidebar-search-menuitem-special") {
+  if (engineMenulist.selectedItem.classList.contains("sidebar-search-menuitem-special")) {
     let item = engineMenulist.selectedItem;
     // Quickly revert the selection, so that the special items don't switch anything
     engineMenulist.value = Services.search.currentEngine.name;
@@ -178,7 +215,7 @@ function SelectCategory() {
     return;
 
 
-  if (categoryMenulist.selectedItem.getAttribute("class") == "sidebar-search-menuitem-special") {
+  if (categoryMenulist.selectedItem.classList.contains("sidebar-search-menuitem-special")) {
     let item = categoryMenulist.selectedItem;
     // Revert selection back to previous state
     categoryMenulist.value = gCurrentCategory;
@@ -231,7 +268,27 @@ function reloadCategory() {
   });
 }
 
+function addEngine(aEngine, confirm=true) {
+  let type = Components.interfaces.nsISearchEngine.DATA_XML;
+
+  let callback = {
+    onSuccess: function(aEngine) {
+      if (confirm)
+        return;
+
+      engineMenulist.value = aEngine.name;
+      Services.search.currentEngine = aEngine;
+      Services.search.defaultEngine = aEngine;
+    }
+  };
+
+  Services.search.addEngine(aEngine.uri, type, aEngine.icon, confirm, callback);
+}
+
 function selectSpecialMenuItem(aItem) {
+  if (aItem.classList.contains("add-engine"))
+    addEngine(aItem.engine, false);
+
   if (aItem.id == "sidebar-search-menuitem-engines")
     OpenSearchEngineManager();
 
