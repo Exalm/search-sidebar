@@ -4,9 +4,9 @@ mkdir temp
 cp chrome.manifest temp
 cp install.rdf temp
 cp icon.png temp
-cp chrome temp -r
-cp components temp -r
-cp defaults temp -r
+cp -r chrome temp
+cp -r components temp
+cp -r defaults temp
 
 cd temp
 
@@ -17,7 +17,7 @@ while read LINE; do
     fi
     LINE1=`echo $LINE | grep -oE "^[^=]+"`
     LINE2=`echo $LINE | grep -oE "[^=]+$"`
-    sed "s|\$$LINE1|$LINE2|g" -i `find . -type f -exec grep -Iq . {} \; -and -print`
+    sed -i.bak "s|\$$LINE1|$LINE2|g" `find . -type f -exec grep -Iq . {} \; -and -print`
     eval "$LINE1=\"$LINE2\""
 done < "../config.txt"
 
